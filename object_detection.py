@@ -12,7 +12,7 @@ COLORS = np.random.uniform(0,100, size=(len(CLASSES), 3))
 
 net = cv2.dnn.readNetFromCaffe("./NETSSD/MobileNetSSD.prototxt","./NETSSD/MobileNetSSD.caffemodel")
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture("sample.mp4")
 
 while True:
 	
@@ -20,7 +20,7 @@ while True:
 	if ret:
 		(h,w) = frame.shape[:2]
 		
-		blob = cv2.dnn.blobFromImage(frame, 0.007843, (300,300), 127.5)
+		blob = cv2.dnn.blobFromImage(frame, 0.007843, (600,600), 127.5)
 		net.setInput(blob)
 		
 		detections = net.forward()
@@ -40,6 +40,7 @@ while True:
 				y = startY - 15 if startY-15>15 else startY+15
 				cv2.putText(frame, label, (startX+20, y+5), cv2.FONT_HERSHEY_DUPLEX, 0.6, (255,255,255), 1)
 
+				print(label)
 		cv2.imshow("Frame", frame)
 		if cv2.waitKey(1) & 0xFF==ord('q'):
 			break
